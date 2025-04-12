@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final todayPeriods = periods
         .where( (p)=> p['startTime'].startsWith(today) )
-        .take(15)
+        .take(15) // hw many smapels we want to take
         .toList();
 
     final todayTemps = todayPeriods
