@@ -53,7 +53,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp(     {super.key});
 
   // This widget is the root of your application.
   @override
@@ -61,6 +61,7 @@ class MyApp extends StatelessWidget {
 
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Gabe Weather App',
       theme: ThemeData(
         fontFamily: '.SF UI Text',     
@@ -194,7 +195,14 @@ class _MyHomePageState extends State<MyHomePage> {
     final obsJson = jsonDecode(obsResp.body)['properties'] as Map<String,dynamic>;
     final timestamp = obsJson['timestamp'] as String; // e.g. "2025-04-25T20:10:00-04:00"
 
-    
+
+    // BACKGROUND COLORS !!!!!
+    //
+    //
+    //  
+
+
+
 
 
 
@@ -205,8 +213,6 @@ class _MyHomePageState extends State<MyHomePage> {
     final h  = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
     final ap = dt.hour >= 12 ? 'PM' : 'AM';
     final localStr = '$h:${dt.minute.toString().padLeft(2,'0')} $ap';
-
-
 
 
     final nowUtc = DateTime.now().toUtc();
@@ -228,6 +234,8 @@ class _MyHomePageState extends State<MyHomePage> {
           );
 
     setState(() {
+
+
       weatherData[cityKey] = cityWeather;
       localTimes[cityKey] = localStr;
     });
@@ -257,11 +265,30 @@ class _MyHomePageState extends State<MyHomePage> {
     int _selectedIndex = 0;
     late String curCity;
 
+    final List<RadialGradient> bgGradients = [  
+      RadialGradient(
+            //transform: GradientTransform.,
+            center: Alignment(-0.99, -0.7),//Alignment.topCenter,
+            radius: 1.2,
+            colors: /* insert color here   */ [Color.fromARGB(255, 202, 217, 232), Color(0xFF4286f4)],//[Color(0xFF89CFF0), Color(0xFF4286f4)],
+          
+          ),
+      RadialGradient(
+            //transform: GradientTransform.,
+            center: Alignment(-0.99, -0.7),//Alignment.topCenter,
+            radius: 1.2,
+            colors: /* insert color here   */ [Color.fromARGB(255, 0, 38, 77), Color.fromARGB(255, 83, 108, 148)],//[Color(0xFF89CFF0), Color(0xFF4286f4)],
+          
+          ),
+    ];
 
+    late int bgSelect;
 
 
   @override
   void initState() {
+
+    bgSelect = 0;
     curCity = cities[0];
     super.initState();
     fetchCityWeather("miami",
@@ -338,12 +365,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Container(
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            //transform: GradientTransform.,
-            center: Alignment(-0.99, -0.7),//Alignment.topCenter,
-            radius: 1.2,
-            colors: [Color.fromARGB(255, 202, 217, 232), Color(0xFF4286f4)],//[Color(0xFF89CFF0), Color(0xFF4286f4)],
-          ),
+          gradient: bgGradients[bgSelect],
         ),
       ),
 
@@ -596,6 +618,102 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
+
+
+
+             // rain of the day
+              // ------------------------------------------ BOXOUBLE 3 ---------------------------------------
+              //-----------------------------------------------------------------------------------------------
+              //--------------------------------------------------------------------------------------
+              Padding(padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: 
+              
+
+                    ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: 
+                    
+                    BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      child: 
+                  
+
+
+                  Container(
+                    width:  double.infinity,
+                    height: 255,//--------------------------------------------  DE HEIGHT !!!!
+                    padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
+                    color: Color.fromARGB(255, 66, 75, 109).withOpacity(0.25),
+
+
+                    child :  Column(
+                    mainAxisSize:  MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+
+                    Text('Rain today',
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 255, 255, 255),               // full opacity
+                          fontSize: 16,
+                          height: 1.3
+                      ),
+                    ),
+                    
+
+                    // inser thwit divider line 
+                    Divider(
+                        color: const Color.fromARGB(133, 211, 207, 207),
+                        thickness: 0.7,
+                        height: 29,  // space around
+                      ),
+
+
+                    Container(
+                      height: 190,//-----------------     that annoying exxtra highet at the bottom
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          for(int i=0; i<weatherData[ curCity ]!.temperatureToday.length; i+=1)
+                          Column(children: [
+                            Padding(padding: EdgeInsets.fromLTRB(6, 0.2, 6, 0 ), child: 
+                              Boxule3(weatherData[curCity]!.precipChance ,weatherData[curCity]!.precipChance[i] , '${weatherData[curCity]!.startTimesToday[i]}', ),
+                            )
+                            
+                            // Text('${weatherData[curCity]!.temperatureToday[i]}'),
+
+                            // Text('${weatherData[curCity]!.startTimesToday[i]}'),
+                          ],),
+                          
+                        ],
+                      ),
+                    )
+
+
+                  ],),
+
+                  ),
+                  ),
+                ),
+              ),
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 
                
@@ -750,85 +868,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-              // rain of the day
-              // ------------------------------------------ BOXOUBLE 3 ---------------------------------------
-              //-----------------------------------------------------------------------------------------------
-              //--------------------------------------------------------------------------------------
-              Padding(padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              child: 
-              
-
-                    ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
-                    child: 
-                    
-                    BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                      child: 
-                  
-
-
-                  Container(
-                    width:  double.infinity,
-                    height: 255,//--------------------------------------------  DE HEIGHT !!!!
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
-                    color: Color.fromARGB(255, 66, 75, 109).withOpacity(0.25),
-
-
-                    child :  Column(
-                    mainAxisSize:  MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-
-                    Text('Rain today',
-                      style: TextStyle(
-                          color: const Color.fromARGB(255, 255, 255, 255),               // full opacity
-                          fontSize: 16,
-                          height: 1.3
-                      ),
-                    ),
-                    
-
-                    // inser thwit divider line 
-                    Divider(
-                        color: const Color.fromARGB(133, 211, 207, 207),
-                        thickness: 0.7,
-                        height: 29,  // space around
-                      ),
-
-
-                    Container(
-                      height: 190,//-----------------     that annoying exxtra highet at the bottom
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          for(int i=0; i<weatherData[ curCity ]!.temperatureToday.length; i+=1)
-                          Column(children: [
-                            Padding(padding: EdgeInsets.fromLTRB(6, 0.2, 6, 0 ), child: 
-                              Boxule3(weatherData[curCity]!.precipChance ,weatherData[curCity]!.precipChance[i] , '${weatherData[curCity]!.startTimesToday[i]}', ),
-                            )
-                            
-                            // Text('${weatherData[curCity]!.temperatureToday[i]}'),
-
-                            // Text('${weatherData[curCity]!.startTimesToday[i]}'),
-                          ],),
-                          
-                        ],
-                      ),
-                    )
-
-
-                  ],),
-
-                  ),
-                  ),
-                ),
-              ),
-
-
-              
-
-
+             
 
 
 
@@ -903,11 +943,29 @@ class _MyHomePageState extends State<MyHomePage> {
           //   tooltip: 'Increment',
           //   child: const Icon(Icons.add),
           // ), // This trailing comma makes auto-formatting nicer for build methods.
-
+      Padding(padding: EdgeInsets.all(9),
+        child: 
+          ElevatedButton(
+                  child: const Text('Chande Mode'),
+                  onPressed: () async {
+                    final result = await Navigator.push<DayNight>(
+                      context,
+                      MaterialPageRoute(builder: (context)=> const BackGroundOptionsPage()),
+                    );
+                    if (result != null){
+                      setState(() {
+                        bgSelect = (result == DayNight.day) ? 0 : 1;
+                      });
+                    }
+                    // Navigate to second route when tapped.
+                    
+                  },
+                ),
+        
+          )
 
         ],
       )),
-      
       ],
       ),
     
@@ -949,6 +1007,85 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
 
+    );
+  }
+}
+
+
+
+
+enum DayNight { day, night }
+
+class BackGroundOptionsPage extends StatefulWidget {
+  const BackGroundOptionsPage({super.key});
+
+  @override
+  State<BackGroundOptionsPage> createState() => _BackGroundOptionsPageState();
+}
+
+class _BackGroundOptionsPageState extends State<BackGroundOptionsPage> {
+
+  DayNight _selection = DayNight.day;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Second Route')),
+      body: 
+      
+      Center(
+
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+
+          children: [
+            
+                RadioListTile<DayNight>(
+                    title: Text('Day'),
+                    value: DayNight.day,
+                    groupValue: _selection,
+                    onChanged: ( p ) {
+                      setState(()=> {
+                        _selection = p!
+                      });
+                    },
+                  ),
+           
+                 RadioListTile<DayNight>(
+                    title: Text('Night'),
+                    value: DayNight.night,
+                    groupValue: _selection,
+                    onChanged: (p) {
+                      setState(() => {
+                      _selection = p!
+                      });
+                    },
+                
+                ),
+            
+            
+
+            ElevatedButton(
+              child: Text('Apply'),
+              onPressed: () {
+                // Navigate back to first route when tapped.
+
+                Navigator.pop(context, _selection);
+              },
+              
+            ),
+
+     
+      
+
+
+
+
+          ],
+        ),
+        
+      ),
+      
     );
   }
 }
