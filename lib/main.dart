@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<String> cityCoords = [
       '25.7617,-80.1918',   // miami
       '29.7604,-95.3698',   // houston
-      '43.2630,-2.9350',    // bilbao
+      '34.0522,-118.2437',  // los angles  // bilbao
       '29.6516,-82.3248',   // gainesville
     ];
   
@@ -241,14 +241,14 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<String> cities = [
       'miami',
       'houston',
-      'bilbao',
+      'los angeles', // was Biblao
       'gainesville',
     ];
 
   final List<String> citiesAbreviation = [
       'MFL/50,50', // Miami
       'HGX/83,98', // Houston
-      'MFL/50,50', // Bilbao (look up via /points lat/lon)
+      'LOX/154,34', // LosAngles   Bilbao (look up via /points lat/lon)
       'JAX/43,42', // Gainsville
     ];
   
@@ -388,7 +388,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: '${curCity.toUpperCase()}\n',
                   style: TextStyle(
                     fontSize: 41,
-                    height: 1.27,       //  1.0× fontSize = no extra gap
+                    height: 1.27,
+                    shadows: [
+                      BoxShadow(blurRadius: 10.9, offset: Offset(0.1, 0.2),color: const Color.fromARGB(198, 0, 0, 0)).scale(2),
+                    ]       //  1.0× fontSize = no extra gap
                   ),
                 ),
                 TextSpan(
@@ -404,6 +407,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(
                     fontSize: 21.3,
                     height: 1.1,
+                    shadows: [
+                      BoxShadow(blurRadius: 10.9, offset: Offset(0.1, 0.2),color: const Color.fromARGB(255, 0, 0, 0)).scale(2),
+                    ]
+                    
                   ),
                 ),
                 // TextSpan(           //   -------------------------------- TODO --------------- inser higheest and lowest temp of the day
@@ -441,10 +448,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(
                     fontSize: 22,
                     height: 1.19,
+                    shadows: [
+                      BoxShadow(blurRadius: 10.9, offset: Offset(0.1, 0.2),color: const Color.fromARGB(255, 0, 0, 0)).scale(2),
+                    ]
                   ),
                 ),
 
-
+            
 
               ],
             ),
@@ -539,7 +549,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
 
-                    Text(' Todays temperatures',
+                    Text('Temperatures today',
                       style: TextStyle(
                           color: const Color.fromARGB(255, 255, 255, 255),               // full opacity
                           fontSize: 16,
@@ -563,7 +573,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           for(int i=0; i<weatherData[ curCity ]!.temperatureToday.length; i++)
                           Column(children: [
-                            Padding(padding: EdgeInsets.fromLTRB(3, 0.2, 3, 0 ), child: 
+                            Padding(padding: EdgeInsets.fromLTRB(3.7, 0.2, 3.7, 0 ), child: 
                               Boxule(weatherData[curCity]!.temperatureToday ,weatherData[curCity]!.temperatureToday[i] ,  '${weatherData[curCity]!.startTimesToday[i]}'),
                             )
                             
@@ -601,187 +611,78 @@ class _MyHomePageState extends State<MyHomePage> {
               // ------------------------------------------ BOXOUBLE 2 ---------------------------------------
               //-----------------------------------------------------------------------------------------------
               //--------------------------------------------------------------------------------------
-              Center(child: Text(' WINDS OF THE DAY '),),
-              Padding(padding: EdgeInsets.fromLTRB(50, 10, 50, 50),
-                child: 
-                
-                Stack(alignment: AlignmentDirectional.center,
-                children: <Widget>[
-                
-                Container(
-                      width: double.infinity ,
-                      height: 202,
-                      color: const Color.fromARGB(255, 102, 215, 209),
-                ),
-                
-                Container(
-                  height: 250,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
+              Padding(padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: 
+              
 
-                    children: <Widget>[
-                      for(int i=0; i<weatherData[curCity]!.windSpeed.length; i++)
-                        Column(children: [
-                          Padding(padding: EdgeInsets.fromLTRB(20, 0.2, 3, 20 ), 
-                          child:
-                            Boxule2(weatherData[curCity]!.windSpeed ,weatherData[curCity]!.windSpeed[i] , '${weatherData[curCity]!.startTimesToday[i]}')
-                            //Text('${weatherData[curCity]!.windSpeed[i]}'),
-                            // insert boxule2
-                          ),
-                          Text('${weatherData[curCity]!.windDirection[i] }'),
-                          Text('${weatherData[curCity]!.startTimesToday[i]}'),
-                        ],)
-
-
-                    ],
-                
-                  ),
-                ),
-                
-
-                ],),
-                
-                
-                
-                
-                
-              ),
-
-
-
-            // chance of rain of the day
-              // ------------------------------------------ BOXOUBLE 3 ---------------------------------------
-              //-----------------------------------------------------------------------------------------------
-              //--------------------------------------------------------------------------------------
-            Center(child: Text(' CHANCE OF RAIN TODAY '),),
-              Padding(padding: EdgeInsets.fromLTRB(50, 10, 50, 50),
-                child: 
-                
-                Stack(alignment: AlignmentDirectional.center,
-                children: <Widget>[
-                
-                Container(
-                      width: double.infinity ,
-                      height: 202,
-                      color: const Color.fromARGB(255, 79, 136, 183),
-                ),
-                
-                Container(
-                  height: 250,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-
-                    children: <Widget>[
-                      for(int i=0; i<weatherData[curCity]!.windSpeed.length; i++)
-                        Column(children: [
-                          Padding(padding: EdgeInsets.fromLTRB(20, 0.2, 3, 20 ), 
-                          child:
-                            Text('${weatherData[curCity]!.precipChance[i]}'),
-                            // insert boxule2
-                          ),
-                          Text('${weatherData[curCity]!.startTimesToday[i]}'),
-                        ],)
-
-
-                    ],
-                
-                  ),
-                ),
-                
-
-                ],),
-                
-                
-                
-                
-                
-              ),
-
-          // chance of rain of the day
-              // ------------------------------------------ BOXOUBLE 3 ---------------------------------------
-              //-----------------------------------------------------------------------------------------------
-              //--------------------------------------------------------------------------------------
-              Center(child: Text(' FORECAST FOR TODAY '),),
-              Padding(padding: EdgeInsets.fromLTRB(50, 10, 50, 50),
-                child: 
-                
-                Stack(alignment: AlignmentDirectional.center,
-                children: <Widget>[
-                
-                Container(
-                      width: double.infinity ,
-                      height: 202,
-                      color: const Color.fromARGB(255, 79, 136, 183),
-                ),
-                
-                Container(
-                  height: 250,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-
-                    children: <Widget>[
-                      for(int i=0; i<weatherData[curCity]!.weatherForecast.length; i++)
-                        Column(children: [
-                          Padding(padding: EdgeInsets.fromLTRB(20, 0.2, 3, 20 ), 
-                          child:
-                            Text('${weatherData[curCity]!.weatherForecast[i]}'),
-                            // insert boxule2
-                          ),
-                          Text('${weatherData[curCity]!.startTimesToday[i]}'),
-                        ],)
-
-
-                    ],
-                
-                  ),
-                ),
-                
-
-                ],),
-                
-                
-                
-                
-                
-              ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              // chance of rain
-              Row(
-                children: <Widget>[
-                  for(int i=0; i<7; i++)
-                    Text('  ${i}:00 PM')
+                    ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: 
+                    
+                    BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      child: 
                   
-                  
-                ],
-              ),
 
 
+                  Container(
+                    width:  double.infinity,
+                    height: 255,//--------------------------------------------  DE HEIGHT !!!!
+                    padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
+                    color: Color.fromARGB(255, 66, 75, 109).withOpacity(0.25),
 
 
+                    child :  Column(
+                    mainAxisSize:  MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+
+                    Text('Wind today',
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 255, 255, 255),               // full opacity
+                          fontSize: 16,
+                          height: 1.3
+                      ),
+                    ),
+                    
+
+                    // inser thwit divider line 
+                    Divider(
+                        color: const Color.fromARGB(133, 211, 207, 207),
+                        thickness: 0.7,
+                        height: 29,  // space around
+                      ),
 
 
-            Column( children: <Widget>[
-                          for(int i=0; i<weatherData[curCity]!.temperatureToday.length; i++)
+                    Container(
+                      height: 190,//-----------------     that annoying exxtra highet at the bottom
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          for(int i=0; i<weatherData[ curCity ]!.temperatureToday.length; i+=2)
                           Column(children: [
-                            Text('${weatherData[curCity]!.temperatureToday[i]}'),
+                            Padding(padding: EdgeInsets.fromLTRB(6, 0.2, 6, 0 ), child: 
+                              Boxule2(weatherData[curCity]!.windSpeed ,weatherData[curCity]!.windSpeed[i] , '${weatherData[curCity]!.startTimesToday[i]}', weatherData[curCity]!.windDirection[i]),
+                            )
+                            
+                            // Text('${weatherData[curCity]!.temperatureToday[i]}'),
 
-                            Text('${weatherData[curCity]!.startTimesToday[i]}'),
+                            // Text('${weatherData[curCity]!.startTimesToday[i]}'),
                           ],),
                           
-                        ],),
+                        ],
+                      ),
+                    )
+
+
+                  ],),
+
+                  ),
+                  ),
+                ),
+              ),
+
+
               
 
 
@@ -789,45 +690,202 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-              // example horizontal scroll
-              SizedBox(
-                height: 100,
-                child: 
-                ListView(
-                // This next line does the trick.
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  Container(width: 160, color: Colors.red),
-                  Container(width: 70, color: Colors.blue),
-                  Container(width: 160, color: Colors.green),
-                  Container(width: 160, color: Colors.yellow),
-                  Container(width: 160, color: Colors.orange),
-                ],
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              // Center(child: Text(' WINDS OF THE DAY '),),
+              // Padding(padding: EdgeInsets.fromLTRB(50, 10, 50, 50),
+              //   child: 
+                
+              //   Stack(alignment: AlignmentDirectional.center,
+              //   children: <Widget>[
+                
+              //   Container(
+              //         width: double.infinity ,
+              //         height: 202,
+              //         color: const Color.fromARGB(255, 102, 215, 209),
+              //   ),
+                
+              //   Container(
+              //     height: 250,
+              //     child: ListView(
+              //       scrollDirection: Axis.horizontal,
+
+              //       children: <Widget>[
+              //         for(int i=0; i<weatherData[curCity]!.windSpeed.length; i++)
+              //           Column(children: [
+              //             Padding(padding: EdgeInsets.fromLTRB(20, 0.2, 3, 20 ), 
+              //             child:
+              //               Boxule2(weatherData[curCity]!.windSpeed ,weatherData[curCity]!.windSpeed[i] , '${weatherData[curCity]!.startTimesToday[i]}')
+              //               //Text('${weatherData[curCity]!.windSpeed[i]}'),
+              //               // insert boxule2
+              //             ),
+              //             Text('${weatherData[curCity]!.windDirection[i] }'),
+              //             Text('${weatherData[curCity]!.startTimesToday[i]}'),
+              //           ],)
+
+
+              //       ],
+                
+              //     ),
+              //   ),
+                
+
+              //   ],),
+                
+                
+                
+                
+                
+              // ),
+
+
+
+
+
+              // rain of the day
+              // ------------------------------------------ BOXOUBLE 3 ---------------------------------------
+              //-----------------------------------------------------------------------------------------------
+              //--------------------------------------------------------------------------------------
+              Padding(padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: 
+              
+
+                    ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: 
+                    
+                    BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      child: 
+                  
+
+
+                  Container(
+                    width:  double.infinity,
+                    height: 255,//--------------------------------------------  DE HEIGHT !!!!
+                    padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
+                    color: Color.fromARGB(255, 66, 75, 109).withOpacity(0.25),
+
+
+                    child :  Column(
+                    mainAxisSize:  MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+
+                    Text('Rain today',
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 255, 255, 255),               // full opacity
+                          fontSize: 16,
+                          height: 1.3
+                      ),
+                    ),
+                    
+
+                    // inser thwit divider line 
+                    Divider(
+                        color: const Color.fromARGB(133, 211, 207, 207),
+                        thickness: 0.7,
+                        height: 29,  // space around
+                      ),
+
+
+                    Container(
+                      height: 190,//-----------------     that annoying exxtra highet at the bottom
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          for(int i=0; i<weatherData[ curCity ]!.temperatureToday.length; i+=1)
+                          Column(children: [
+                            Padding(padding: EdgeInsets.fromLTRB(6, 0.2, 6, 0 ), child: 
+                              Boxule3(weatherData[curCity]!.precipChance ,weatherData[curCity]!.precipChance[i] , '${weatherData[curCity]!.startTimesToday[i]}', ),
+                            )
+                            
+                            // Text('${weatherData[curCity]!.temperatureToday[i]}'),
+
+                            // Text('${weatherData[curCity]!.startTimesToday[i]}'),
+                          ],),
+                          
+                        ],
+                      ),
+                    )
+
+
+                  ],),
+
+                  ),
+                  ),
+                ),
               ),
-              ),
-
-              // temperature thrhought hte day
-              Row(
-                children: <Widget>[
-                  for(int i=0; i<7; i++)
-                    Text('  ${i}:00 AM')
-                  
-                  
-                ],
-
-              ),
 
 
-              //Temparature for the week
-              Row(
-                children: <Widget>[
-                  for(int i=0; i<7; i++)
-                    Text(daysOfWeek[i])
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              // // temperature thrhought hte day
+              // Row(
+              //   children: <Widget>[
+              //     for(int i=0; i<7; i++)
+              //       Text('  ${i}:00 AM')
                   
                   
-                ],
+              //   ],
+
+              // ),
+
+
+              // //Temparature for the week
+              // Row(
+              //   children: <Widget>[
+              //     for(int i=0; i<7; i++)
+              //       Text(daysOfWeek[i])
+                  
+                  
+              //   ],
           
-              ),
+              // ),
 
 
 
@@ -840,11 +898,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ),
           
-          FloatingActionButton(
-            onPressed: _incrementCounter,
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
+          // FloatingActionButton(
+          //   onPressed: _incrementCounter,
+          //   tooltip: 'Increment',
+          //   child: const Icon(Icons.add),
+          // ), // This trailing comma makes auto-formatting nicer for build methods.
 
 
         ],
